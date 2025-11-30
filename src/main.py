@@ -13,7 +13,10 @@ class main_cli(cmd.Cmd):
         parser = argparse.ArgumentParser(description="Convert frequency to wavelength")
         parser.add_argument('frequency', help="Frequency")
         parser.add_argument('unit')
-        args = parser.parse_args()
+        try:
+            args = parser.parse_args()
+        except SystemExit:
+            pass
     
     
     def do_wl2f(self, arg: str) -> None:
@@ -21,7 +24,10 @@ class main_cli(cmd.Cmd):
         parser = argparse.ArgumentParser(description="Convert wavelength to frequency")
         parser.add_argument('wavelength', help="Wavelength")
         parser.add_argument('unit')
-        args = parser.parse_args()
+        try:
+            args = parser.parse_args()
+        except SystemExit:
+            pass
 
 
     def do_db2pl(self, arg: str) -> None:
@@ -29,7 +35,10 @@ class main_cli(cmd.Cmd):
         parser = argparse.ArgumentParser(description="Convert dB to power loss in percentage")
         parser.add_argument('decibel', help="Decibel")
         parser.add_argument('unit')
-        args = parser.parse_args()
+        try:
+            args = parser.parse_args()
+        except SystemExit:
+            pass
 
 
     def do_pl2db(self, arg: str) -> None:
@@ -37,7 +46,10 @@ class main_cli(cmd.Cmd):
         parser = argparse.ArgumentParser(description="Convert power loss in percentage to dB")
         parser.add_argument('percentage',  help="Percentage loss")
         parser.add_argument('unit')
-        args = parser.parse_args()
+        try:
+            args = parser.parse_args()
+        except SystemExit:
+            pass
 
     def do_exit(self, arg: str) -> None:
         """Exit the application"""
