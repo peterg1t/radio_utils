@@ -32,6 +32,12 @@ def wavelength_to_frequency(wavelength: float) -> float:
     return freq_hz
 
 
+def calculate_ant_length(frequency: float) -> float:
+    if frequency < 30:
+        return 286/frequency
+    return 300/frequency
+
+
 class main_cli(cmd.Cmd):
     def __init__(self, completekey: str = "tab", stdin: TextIO | None = None, stdout: TextIO | None = None) -> None:
         super().__init__(completekey, stdin, stdout)
@@ -95,6 +101,18 @@ class main_cli(cmd.Cmd):
             perloss = float(args.percentage)
             db = 20*math.log10(perloss/100)
             print(f"{db:.4f} dB")
+        except SystemExit:
+            pass
+
+    def do_ant_len(self, arg:str) -> None:
+        """Calculate the antenna length for a given frequency"""
+        parser = argparse.ArgumentParser(description="Calculate antenna length")
+        parser.add_argument('frequency',  help="In MHz")
+        try:
+            args = parser.parse_args(arg.split())
+            freq = float(args.frequency)
+            antenna_length = calculate_ant_length(freq)
+            print(f"{antenna_length:.4f} m")
         except SystemExit:
             pass
 
