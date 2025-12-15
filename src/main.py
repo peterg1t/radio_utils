@@ -118,6 +118,29 @@ class main_cli(cmd.Cmd):
         except SystemExit:
             pass
 
+    def do_bands(self, arg:str) -> None:
+        """Print hams band information"""
+        try:
+            print(f"160 m -> 1 800 - 1 850 kHz center -> 1 875 kHz ")
+            print(f"80 m -> 3 500 - 4 000 kHz center -> 3 750 kHz ")
+            # print(f"60 m -> 5.330 - 5.400 kHz center -> 5 365 kHz ")
+            print(f"40 m -> 7 000 - 7 300 kHz center -> 7 150 kHz ")
+            print(f"30 m -> 10 100 - 10 150 kHz center -> 10 125 kHz ")
+            print(f"20 m -> 14 000 - 14 350 kHz center -> 14 175 kHz ")
+            print(f"17 m -> 18 068 - 18 168 kHz center -> 18 118 kHz ")
+            print(f"15 m -> 21 000 - 21 450 kHz center -> 21 225 kHz ")
+            print(f"12 m -> 24 890 - 24 990 kHz center -> 24 940 kHz ")
+            print(f"10 m -> 28 - 29.7 MHz center -> 28.35 MHz ")
+            print(f"6 m -> 50 - 54 MHz center -> 52 MHz ")
+            print(f"2 m -> 144 - 148 MHz center -> 146 MHz ")
+            print(f"1.25 m -> 222 - 225 MHz center -> 146 MHz ")
+            print(f"70 cm -> 222 - 225 MHz center -> 146 MHz ")
+
+            
+            
+        except SystemExit:
+            pass
+
     def do_exit(self, arg: str) -> None:
         """Exit the application"""
         sys.exit()
@@ -125,3 +148,4 @@ class main_cli(cmd.Cmd):
 
 if __name__ == '__main__':
     main_cli().cmdloop()
+    
