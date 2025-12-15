@@ -51,7 +51,7 @@ class main_cli(cmd.Cmd):
             args = parser.parse_args(arg.split())
             frequency = rescale(float(args.frequency), args.unit)
             wavelength = frequency_to_wavelength(frequency)
-            print(f"{wavelength:.4f} m")
+            print(f"Wavelength = {wavelength:.4f} m")
         except SystemExit:
             pass
     
@@ -65,16 +65,16 @@ class main_cli(cmd.Cmd):
             wavelength = float(args.wavelength)
             frequency = wavelength_to_frequency(wavelength)
             if frequency >= 1e9:
-                print(f"{frequency / 1e9:.6g} GHz")
+                print(f"Frequency = {frequency / 1e9:.6g} GHz")
 
             elif frequency >= 1e6:
-                print(f"{frequency / 1e6:.6g} MHz")
+                print(f"Frequency = {frequency / 1e6:.6g} MHz")
 
             elif frequency >= 1e3:
-                print(f"{frequency / 1e3:.6g} kHz")
+                print(f"Frequency = {frequency / 1e3:.6g} kHz")
             
             else: 
-                print(f"{frequency:.6g} Hz")
+                print(f"Frequency = {frequency:.6g} Hz")
         except SystemExit:
             pass
 
@@ -87,7 +87,7 @@ class main_cli(cmd.Cmd):
             args = parser.parse_args(arg.split())
             db = float(args.decibel)
             perloss = 100 * 10 ** (db/20)
-            print(f"{perloss:.4f} %")
+            print(f"% loss = {perloss:.4f} %")
         except SystemExit:
             pass
 
@@ -100,7 +100,7 @@ class main_cli(cmd.Cmd):
             args = parser.parse_args(arg.split())
             perloss = float(args.percentage)
             db = 20*math.log10(perloss/100)
-            print(f"{db:.4f} dB")
+            print(f"dB = {db:.4f} dB")
         except SystemExit:
             pass
 
@@ -112,7 +112,9 @@ class main_cli(cmd.Cmd):
             args = parser.parse_args(arg.split())
             freq = float(args.frequency)
             antenna_length = calculate_ant_length(freq)
-            print(f"{antenna_length:.4f} m")
+            print(f"Electrical wavelength = {antenna_length:.4f} m")
+            print(f"Half-wavelength = {antenna_length/2:.4f} m")
+            print(f"Quarter-wavelength = {antenna_length/4:.4f} m")
         except SystemExit:
             pass
 
