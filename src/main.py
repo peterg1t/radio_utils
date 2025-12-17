@@ -141,6 +141,17 @@ class main_cli(cmd.Cmd):
         except SystemExit:
             pass
 
+    def do_impedance_load(self, arg: str) -> None:
+        """Calculate impedance from a pure resistive value on the Smith Chart"""
+        parser = argparse.ArgumentParser(description="Calculate impedance from the load")
+        parser.add_argument('r',  help="In Ohms")
+        try:
+            args = parser.parse_args(arg.split())
+            resistive = float(args.r)
+            print(f"Impedance = { math.sqrt(resistive*50) } Ohms")
+        except SystemExit:
+            pass
+
     def do_exit(self, arg: str) -> None:
         """Exit the application"""
         sys.exit()
