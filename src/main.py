@@ -142,7 +142,7 @@ class main_cli(cmd.Cmd):
             pass
 
     def do_impedance_load(self, arg: str) -> None:
-        """Calculate impedance from a pure resistive value on the Smith Chart"""
+        """Calculate impedance from a pure resistive value on the Smith Chart (needs NanoVNA)"""
         parser = argparse.ArgumentParser(description="Calculate impedance from the load")
         parser.add_argument('r',  help="In Ohms")
         try:
