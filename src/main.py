@@ -105,7 +105,7 @@ class main_cli(cmd.Cmd):
             pass
 
     def do_ant_len(self, arg:str) -> None:
-        """Calculate the antenna length for a given frequency"""
+        """Calculate the antenna length for a given frequency in MHz"""
         parser = argparse.ArgumentParser(description="Calculate antenna length")
         parser.add_argument('frequency',  help="In MHz")
         try:
