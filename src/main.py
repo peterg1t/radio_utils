@@ -4,6 +4,7 @@ import cmd
 from typing import TextIO
 import math
 from utilities import rescale, frequency_to_wavelength, wavelength_to_frequency, calculate_ant_length
+from loops import radiation_efficiency
 
 
 
@@ -119,6 +120,19 @@ class main_cli(cmd.Cmd):
             args = parser.parse_args(arg.split())
             resistive = float(args.r)
             print(f"Impedance = { math.sqrt(resistive*50) } Ohms")
+        except SystemExit:
+            pass
+
+
+    def do_mag_loog_eff(self, arg: str) -> None:
+        """Plot mag loop effficiency"""
+        parser = argparse.ArgumentParser(description="Plot magloop eficiency")
+        parser.add_argument('wd',  help="In mm")
+        parser.add_argument('ld',  help="In mm")
+        try:
+            args = parser.parse_args(arg.split())
+            wire_diameter = float(args.wd)
+            loop_diameter = float(args.ld)
         except SystemExit:
             pass
 
