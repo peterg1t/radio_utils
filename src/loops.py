@@ -1,4 +1,5 @@
 import math
+from utilities import wavelength_to_frequency
 
 
 def perimeter(radius: float) -> float:
@@ -16,20 +17,50 @@ def surface_resistance(freq: float) -> float:
     sigma = 5.8*10**(7) #Siemens/m
     return math.sqrt((2*math.pi*freq*mu_0)/(2*sigma))
 
-def radiation_loss(N: int, R_s: float, r_conductor: float, R_p: float, R_0: float):
-    l_perim = perimeter(r_conductor)
-    return N *(l_perim/r_conductor)*R_s*(R_p/R_0+1)
-
-def radiation_efficiency(r_rad: float, r_loop: float, r_e: float) -> float:
-    """_summary_
+def radiation_loss_resistance(N: int, a: float, b: float, R_s: float, R_p: float, R_0: float):
+    """Calculate radiation loss resistance of a loop
 
     Args:
-        r_rad (float): _description_
-        r_loop (float): _description_
+        N (int): Numebr of loops
+        a (float): radius of the loop
+        b (float): thickness of the wire
+        R_s (float): Surface resistance
+        R_p (float): _description_
+        R_0 (float): loss resistance per unit length (in Ω / m)
+
+    Returns:
+        float: Radiation loss resistance of N loops
+    """
+    return N *(a/b)*R_s*(R_p/R_0+1)
+
+
+def radiation_resistance_loop(N: int, a: float, wavelength: float) -> float:
+    """Calculate Radiation resistance of an N number of loops
+
+    Args:
+        N (int): Number of loops
+        a (float): Radius of the loop
+        wavelength (float): Wavelength
+
+    Returns:
+        float: Radiation resistance of an N number of loops
+    """
+    return (N**2)*20*math.pi**2*((2*math.pi*a)/wavelength)**4
+
+
+def radiation_efficiency(N: int, a: float, wavelength: float, r_e: float) -> float:
+    """Calculate radiation efficiency
+
+    Args:
+
         r_e (float): in Ohms
 
     Returns:
-        _type_: _description_
+        float: Efficiency
     """
+    freq = wavelength_to_frequency(wavelength)
+    r_rad = radiation_resistance_loop(N, a, wavelength)
+    R_s = surface_resistance(freq)
+    r_loop = radiation_loss_resistance(N, a, b, R_s, R_p, R_0)
     return r_rad/(r_rad + r_loop + r_e)
 
