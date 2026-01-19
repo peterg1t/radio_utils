@@ -64,9 +64,9 @@ def radiation_efficiency(N: int, a: float, b: float, wavelength: float, r_e: flo
     print("Radiation resistance loop", r_rad)
     R_s = surface_resistance(freq)
     print("Surface resistance", R_s)
-    R_p=0.5
+    R_p=0
     R_0=1
-    r_loop = radiation_loss_resistance(N, a, b, R_s, R_p, R_0)
+    r_loop = radiation_loss_resistance(N, b, a, R_s, R_p, R_0)
     print("Efficiency", r_rad, r_loop, r_rad/(r_rad + r_loop + r_e))
     return r_rad/(r_rad + r_loop + r_e)
 
