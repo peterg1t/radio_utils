@@ -115,7 +115,7 @@ class main_cli(cmd.Cmd):
     def do_impedance_load(self, arg: str) -> None:
         """Calculate impedance from a pure resistive value on the Smith Chart (needs NanoVNA)"""
         parser = argparse.ArgumentParser(description="Calculate impedance from the load")
-        parser.add_argument('r',  help="In Ohms")
+        parser.add_argument('r', type=float, help="In Ohms")
         try:
             args = parser.parse_args(arg.split())
             resistive = float(args.r)
@@ -124,15 +124,20 @@ class main_cli(cmd.Cmd):
             pass
 
 
-    def do_mag_loog_eff(self, arg: str) -> None:
+    def do_mag_loop_eff(self, arg: str) -> None:
         """Plot mag loop effficiency"""
         parser = argparse.ArgumentParser(description="Plot magloop eficiency")
-        parser.add_argument('wd',  help="In mm")
-        parser.add_argument('ld',  help="In mm")
+        parser.add_argument('-n', type=int, help="Number of loops") # Number of loops
+        parser.add_argument('-wd', type=float, help="In mm") # Conductor diameter
+        parser.add_argument('-ld', type=float, help="In mm") # Loop diameter
+        parser.add_argument('-re', type=float, help="In Ohms") #Additional resistance due to external losses, due mainly from capacitor contact resistance and proximity-to-ground effects. Use Re=0.0 to assume the loop is in free-space with no capacitor losses
         try:
             args = parser.parse_args(arg.split())
-            wire_diameter = float(args.wd)
-            loop_diameter = float(args.ld)
+            N = int(args.n)
+            wire_diameter = float(args.wd)*10**(-3)
+            loop_diameter = float(args.ld)*10**(-3)
+            resistance = float(args.re)
+            eff = radiation_efficiency(N, wire_diameter, loop_diameter, 80, 0.0)
         except SystemExit:
             pass
 

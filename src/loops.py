@@ -34,7 +34,7 @@ def radiation_loss_resistance(N: int, a: float, b: float, R_s: float, R_p: float
     return N *(a/b)*R_s*(R_p/R_0+1)
 
 
-def radiation_resistance_loop(N: int, a: float, wavelength: float) -> float:
+def radiation_resistance_loop(N: int, b: float, wavelength: float) -> float:
     """Calculate Radiation resistance of an N number of loops
 
     Args:
@@ -45,10 +45,10 @@ def radiation_resistance_loop(N: int, a: float, wavelength: float) -> float:
     Returns:
         float: Radiation resistance of an N number of loops
     """
-    return (N**2)*20*math.pi**2*((2*math.pi*a)/wavelength)**4
+    return (N**2)*20*math.pi**2*((2*math.pi*b)/wavelength)**4
 
 
-def radiation_efficiency(N: int, a: float, wavelength: float, r_e: float) -> float:
+def radiation_efficiency(N: int, a: float, b: float, wavelength: float, r_e: float) -> float:
     """Calculate radiation efficiency
 
     Args:
@@ -59,8 +59,14 @@ def radiation_efficiency(N: int, a: float, wavelength: float, r_e: float) -> flo
         float: Efficiency
     """
     freq = wavelength_to_frequency(wavelength)
-    r_rad = radiation_resistance_loop(N, a, wavelength)
+    print("Frequency", freq, N, b, wavelength)
+    r_rad = radiation_resistance_loop(N, b, wavelength)
+    print("Radiation resistance loop", r_rad)
     R_s = surface_resistance(freq)
+    print("Surface resistance", R_s)
+    R_p=0.5
+    R_0=1
     r_loop = radiation_loss_resistance(N, a, b, R_s, R_p, R_0)
+    print("Efficiency", r_rad, r_loop, r_rad/(r_rad + r_loop + r_e))
     return r_rad/(r_rad + r_loop + r_e)
 
