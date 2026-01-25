@@ -5,7 +5,7 @@ from typing import TextIO
 import math
 from utilities import rescale, frequency_to_wavelength, wavelength_to_frequency, calculate_ant_length
 from loops import radiation_efficiency
-
+import plotext as plt
 
 
 
@@ -127,6 +127,7 @@ class main_cli(cmd.Cmd):
     def do_mag_loop_eff(self, arg: str) -> None:
         """Plot mag loop effficiency"""
         bands=[160, 80, 60, 40, 20, 15, 10]
+        efficiency = []
         parser = argparse.ArgumentParser(description="Plot magloop eficiency")
         parser.add_argument('-n', type=int, required=True, help="Number of loops") # Number of loops
         parser.add_argument('-wd', type=float, required=True, help="In mm") # Conductor diameter
@@ -139,7 +140,12 @@ class main_cli(cmd.Cmd):
             loop_diameter = float(args.ld)*10**(-3)
             resistance = float(args.re)
             for band in bands:
-                print(radiation_efficiency(N, wire_diameter, loop_diameter, band, 0.0))
+                efficiency.append(radiation_efficiency(N, wire_diameter, loop_diameter, band, 0.0))
+            plt.clf()
+            plt.plot(bands, efficiency, marker='fhd')
+            plt.scatter(bands, efficiency, marker='@')
+            plt.xscale("log")
+            plt.show()
         except SystemExit:
             pass
 
