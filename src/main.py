@@ -1,10 +1,12 @@
 import sys
 import argparse
 import cmd
+import getpass
 from typing import TextIO
 import math
 from utilities import rescale, frequency_to_wavelength, wavelength_to_frequency, calculate_ant_length
 from loops import radiation_efficiency
+from datetime import datetime as dt
 import plotext as plt
 
 
@@ -12,6 +14,17 @@ import plotext as plt
 class main_cli(cmd.Cmd):
     def __init__(self, completekey: str = "tab", stdin: TextIO | None = None, stdout: TextIO | None = None) -> None:
         super().__init__(completekey, stdin, stdout)
+        self.update_prompt()
+
+    intro = 'Welcome to radio_utils. Type help or ? to list commands.\n'
+    
+    def update_prompt(self):
+        self.prompt = f"[{getpass.getuser()}-{dt.now().strftime('%H:%M:%S')}] > "
+
+    def precmd(self, line):
+        self.update_prompt()
+        return line
+
 
     def do_f2wl(self, arg: str) -> None:
         """Frequency to wavelength"""
