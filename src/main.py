@@ -125,7 +125,15 @@ class main_cli(cmd.Cmd):
 
 
     def do_mag_loop_eff(self, arg: str) -> None:
-        """Plot mag loop effficiency"""
+        """Tool to plot the effficiency of a magnetic loop antenna.
+            
+            Args:
+                 -n: Number of loops (integer)
+                -wd: Wire/Conductor diameter (in mm)
+                -ld: Loop diameter (in mm)
+                -re: (Additional resistance due to external losses (in Ohms)
+
+        """
         bands=[160, 80, 60, 40, 20, 15, 10]
         efficiency = []
         parser = argparse.ArgumentParser(description="Plot magloop eficiency")
