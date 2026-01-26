@@ -16,7 +16,7 @@ class main_cli(cmd.Cmd):
         super().__init__(completekey, stdin, stdout)
         self.update_prompt()
 
-    intro = 'Welcome to radio_utils. Type help or ? to list commands.\n'
+    intro = 'Welcome to radio_utils by VA6PEM. Type help or ? to list commands.\n'
     
     def update_prompt(self):
         self.prompt = f"[{os.environ.get('USER')}-{dt.now().strftime('%H:%M:%S')}] > "
@@ -138,7 +138,7 @@ class main_cli(cmd.Cmd):
 
 
     def do_mag_loop_eff(self, arg: str) -> None:
-        """Tool to plot the effficiency of a magnetic loop antenna.
+        """Tool to plot the effficiency of a magnetic loop antenna. Based on the equations researched by VK3CPU
             
             Args:
                  -n: Number of loops (integer)
