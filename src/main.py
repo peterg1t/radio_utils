@@ -1,7 +1,7 @@
+import os
 import sys
 import argparse
 import cmd
-import getpass
 from typing import TextIO
 import math
 from utilities import rescale, frequency_to_wavelength, wavelength_to_frequency, calculate_ant_length
@@ -19,7 +19,7 @@ class main_cli(cmd.Cmd):
     intro = 'Welcome to radio_utils. Type help or ? to list commands.\n'
     
     def update_prompt(self):
-        self.prompt = f"[{getpass.getuser()}-{dt.now().strftime('%H:%M:%S')}] > "
+        self.prompt = f"[{os.environ.get('USER')}-{dt.now().strftime('%H:%M:%S')}] > "
 
     def precmd(self, line):
         self.update_prompt()
