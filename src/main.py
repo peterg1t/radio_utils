@@ -136,6 +136,14 @@ class main_cli(cmd.Cmd):
         except SystemExit:
             pass
 
+    def do_morse(self, arg: str) -> None:
+        """Morse code dictionary."""
+        try:
+            print("A ._")
+
+        except SystemExit:
+            pass
+
 
     def do_mag_loop_eff(self, arg: str) -> None:
         """Tool to plot the effficiency of a magnetic loop antenna. Based on the equations researched by VK3CPU
