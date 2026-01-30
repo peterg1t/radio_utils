@@ -140,6 +140,31 @@ class main_cli(cmd.Cmd):
         """Morse code dictionary."""
         try:
             print("A ._")
+            print("B _...")
+            print("C _._.")
+            print("D _..")
+            print("E .")
+            print("F .._.")
+            print("G __.")
+            print("H ....")
+            print("I ..")
+            print("J .___")
+            print("K _._")
+            print("L ._..")
+            print("M __")
+            print("N _.")
+            print("O ___")
+            print("P .__.")
+            print("Q __._")
+            print("R ._.")
+            print("S ...")
+            print("T _")
+            print("U .._")
+            print("V ..._")
+            print("W .__")
+            print("X _.._")
+            print("Y _.__")
+            print("Z __..")
 
         except SystemExit:
             pass
