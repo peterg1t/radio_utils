@@ -29,8 +29,8 @@ class main_cli(cmd.Cmd):
     def do_f2wl(self, arg: str) -> None:
         """Frequency to wavelength"""
         parser = argparse.ArgumentParser(description="Convert frequency to wavelength")
-        parser.add_argument('frequency', required=True, help="Frequency")
-        parser.add_argument('unit', required=True, choices=['Hz', 'k', 'M', 'G'])
+        parser.add_argument('frequency', help="Frequency")
+        parser.add_argument('unit', choices=['Hz', 'k', 'M', 'G'])
         try:
             args = parser.parse_args(arg.split())
             frequency = rescale(float(args.frequency), args.unit)
@@ -43,7 +43,7 @@ class main_cli(cmd.Cmd):
     def do_wl2f(self, arg: str) -> None:
         """Wavelength to frequency"""
         parser = argparse.ArgumentParser(description="Convert wavelength to frequency")
-        parser.add_argument('wavelength', required=True, help="Wavelength in meters")
+        parser.add_argument('wavelength', help="Wavelength in meters")
         try:
             args = parser.parse_args(arg.split())
             wavelength = float(args.wavelength)
@@ -66,7 +66,7 @@ class main_cli(cmd.Cmd):
     def do_db2pl(self, arg: str) -> None:
         """dB to Percentage loss"""
         parser = argparse.ArgumentParser(description="Convert dB to power loss in percentage")
-        parser.add_argument('decibel', required=True, help="Decibel")
+        parser.add_argument('decibel', help="Decibel")
         try:
             args = parser.parse_args(arg.split())
             db = float(args.decibel)
@@ -79,7 +79,7 @@ class main_cli(cmd.Cmd):
     def do_pl2db(self, arg: str) -> None:
         """Percentage loss to dB"""
         parser = argparse.ArgumentParser(description="Convert power loss in percentage to dB")
-        parser.add_argument('percentage', required=True, help="Percentage loss")
+        parser.add_argument('percentage', help="Percentage loss")
         try:
             args = parser.parse_args(arg.split())
             perloss = float(args.percentage)
@@ -91,7 +91,7 @@ class main_cli(cmd.Cmd):
     def do_ant_len(self, arg:str) -> None:
         """Calculate the antenna length for a given frequency in MHz"""
         parser = argparse.ArgumentParser(description="Calculate antenna length")
-        parser.add_argument('frequency', required=True, help="In MHz")
+        parser.add_argument('frequency', help="In MHz")
         try:
             args = parser.parse_args(arg.split())
             freq = float(args.frequency)
@@ -119,16 +119,13 @@ class main_cli(cmd.Cmd):
             print(f"  2 m    ->    144 -    148   MHz, center ->    146    MHz ")
             print(f"  1.25 m ->    222 -    225   MHz, center ->    223.5  MHz ")
             print(f" 70 cm   ->    430 -    450   MHz, center ->    440    MHz ")
-
-            
-            
         except SystemExit:
             pass
 
     def do_impedance_load(self, arg: str) -> None:
         """Calculate impedance from a pure resistive value on the Smith Chart (needs NanoVNA)"""
         parser = argparse.ArgumentParser(description="Calculate impedance from the load")
-        parser.add_argument('r', type=float, required=True, help="In Ohms")
+        parser.add_argument('r', type=float, help="In Ohms")
         try:
             args = parser.parse_args(arg.split())
             resistive = float(args.r)
@@ -183,22 +180,30 @@ class main_cli(cmd.Cmd):
         bands=[160, 80, 60, 40, 20, 15, 10]
         efficiency = []
         parser = argparse.ArgumentParser(description="Plot magloop eficiency")
-        parser.add_argument('-n', type=int, required=True, help="Number of loops") # Number of loops
-        parser.add_argument('-wd', type=float, required=True, help="In mm") # Conductor diameter
-        parser.add_argument('-ld', type=float, required=True, help="In mm") # Loop diameter
-        parser.add_argument('-re', type=float, required=True, help="In Ohms") #Additional resistance due to external losses, due mainly from capacitor contact resistance and proximity-to-ground effects. Use Re=0.0 to assume the loop is in free-space with no capacitor losses
+        parser.add_argument('-n', type=int, help="Number of loops") # Number of loops
+        parser.add_argument('-wd', type=float, help="In mm") # Conductor diameter
+        parser.add_argument('-ld', type=float, help="In mm") # Loop diameter
+        parser.add_argument('-re', type=float, help="In Ohms") #Additional resistance due to external losses, due mainly from capacitor contact resistance and proximity-to-ground effects. Use Re=0.0 to assume the loop is in free-space with no capacitor losses
         try:
             args = parser.parse_args(arg.split())
+            if args.n is None or args.wd is None or args.ld is None:
+                print("Usage: mag_loop_eff -n <loops> -wd <wire mm> -ld <loop mm> [-re <ohms>]")
+                return
             N = int(args.n)
             wire_diameter = float(args.wd)*10**(-3)
             loop_diameter = float(args.ld)*10**(-3)
-            resistance = float(args.re)
+            if args.re:
+                resistance = float(args.re)
+            else:
+                resistance = 0.0
             for band in bands:
-                efficiency.append(radiation_efficiency(N, wire_diameter, loop_diameter, band, 0.0))
+                efficiency.append(radiation_efficiency(N, wire_diameter, loop_diameter, band, resistance))
             plt.clf()
             plt.plot(bands, efficiency, marker='fhd')
             plt.scatter(bands, efficiency, marker='@')
+            plt.xlabel("Bands")
             plt.xscale("log")
+            plt.ylabel("Radiation efficiency")
             plt.show()
         except SystemExit:
             pass
